@@ -8,7 +8,6 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Pihrtsoft.CodeAnalysis.CSharp.DiagnosticAnalyzers
 {
-#if DEBUG
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class NewLineDiagnosticAnalyzer : BaseDiagnosticAnalyzer
     {
@@ -74,5 +73,4 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.DiagnosticAnalyzers
             }
         }
     }
-#endif
 }

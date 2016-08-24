@@ -13,7 +13,6 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Pihrtsoft.CodeAnalysis.CSharp.CodeFixProviders
 {
-#if DEBUG
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NewLineCodeFixProvider))]
     [Shared]
     public class NewLineCodeFixProvider : BaseCodeFixProvider
@@ -108,6 +107,5 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.CodeFixProviders
             return document.WithSyntaxRoot(root);
         }
     }
-#endif
 }
 

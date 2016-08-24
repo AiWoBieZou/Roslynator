@@ -102,7 +102,6 @@
     <Compile Include="CodeFixProviders\RemoveRedundantParenthesesCodeFixProvider.cs" />
     <Compile Include="CodeFixProviders\RemoveRedundantPartialModifierCodeFixProvider.cs" />
     <Compile Include="CodeFixProviders\RemoveRedundantSealedModifierCodeFixProvider.cs" />
-    <Compile Include="CodeFixProviders\ReplaceTabWithSpacesCodeFixProvider.cs" />
     <Compile Include="CodeFixProviders\RemoveTriviaCodeFixProvider.cs" />
     <Compile Include="CodeFixProviders\FormatEachStatementOnSeparateLineCodeFixProvider.cs" />
     <Compile Include="CodeFixProviders\FormatEmbeddedStatementOnSeparateLineCodeFixProvider.cs" />
@@ -163,7 +162,6 @@
     <Compile Include="DiagnosticAnalyzers\NamedTypeDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\ReturnStatementDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\SwitchSectionDiagnosticAnalyzer.cs" />
-    <Compile Include="DiagnosticAnalyzers\SyntaxTreeDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\ParenthesizedExpressionDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\QualifiedNameDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\IdentifierNameDiagnosticAnalyzer.cs" />

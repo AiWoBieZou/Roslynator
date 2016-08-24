@@ -818,7 +818,6 @@ namespace Pihrtsoft.CodeAnalysis.CSharp
 
         public static readonly DiagnosticDescriptor ReplacePropertyWithAutoImplementedPropertyFadeOut = ReplacePropertyWithAutoImplementedProperty.CreateFadeOut();
 
-#if DEBUG
         public static readonly DiagnosticDescriptor UseLinefeedAsNewLine = new DiagnosticDescriptor(
             id: DiagnosticIdentifiers.UseLinefeedAsNewLine,
             title: "Use linefeed as newline.",
@@ -836,15 +835,5 @@ namespace Pihrtsoft.CodeAnalysis.CSharp
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: false
         );
-
-        public static readonly DiagnosticDescriptor ReplaceTabWithSpaces = new DiagnosticDescriptor(
-            id: DiagnosticIdentifiers.ReplaceTabWithSpaces,
-            title: "Replace tab with spaces.",
-            messageFormat: "Consider replacing tab with spaces.",
-            category: DiagnosticCategories.General,
-            defaultSeverity: DiagnosticSeverity.Warning,
-            isEnabledByDefault: false
-        );
-#endif
     }
 }
