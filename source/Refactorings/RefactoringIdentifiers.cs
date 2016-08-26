@@ -74,6 +74,7 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.Refactorings
         public const string NegateBooleanLiteral = "NegateBooleanLiteral";
         public const string NegateOperator = "NegateOperator";
         public const string NotifyPropertyChanged = "NotifyPropertyChanged";
+        public const string PromoteLocalToParameter = "PromoteLocalToParameter";
         public const string RemoveAllComments = "RemoveAllComments";
         public const string RemoveAllCommentsExceptXmlComments = "RemoveAllCommentsExceptXmlComments";
         public const string RemoveAllMemberDeclarations = "RemoveAllMemberDeclarations";

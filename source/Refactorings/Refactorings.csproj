@@ -46,6 +46,7 @@
     <Compile Include="RefactoringIdentifierSet.cs" />
     <Compile Include="RefactoringSettings.cs" />
     <Compile Include="Refactorings\ExtractExpressionFromCondition\ExtractExpressionFromConditionRefactoring.cs" />
+    <Compile Include="Refactorings\PromoteLocalToParameterRefactoring.cs" />
     <Compile Include="Refactorings\IntroduceAndInitialize\IntroduceAndInitializeFieldInfo.cs" />
     <Compile Include="Refactorings\IntroduceAndInitialize\IntroduceAndInitializeInfo.cs" />
     <Compile Include="Refactorings\IntroduceAndInitialize\IntroduceAndInitializePropertyInfo.cs" />

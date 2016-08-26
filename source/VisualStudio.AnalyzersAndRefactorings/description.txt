@@ -332,6 +332,9 @@
             <a href="http://github.com/JosefPihrt/RoslynTools/blob/master/Refactorings.md#notify-property-changed">Notify property changed</a>
         </li>
         <li>
+            <a href="http://github.com/JosefPihrt/RoslynTools/blob/master/Refactorings.md#promote-local-to-parameter">Promote local to parameter</a>
+        </li>
+        <li>
             <a href="http://github.com/JosefPihrt/RoslynTools/blob/master/Refactorings.md#remove-all-region-directives">Remove all '#region' directives</a>
         </li>
         <li>

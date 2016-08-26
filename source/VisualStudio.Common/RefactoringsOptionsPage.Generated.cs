@@ -80,6 +80,7 @@ namespace Pihrtsoft.CodeAnalysis.VisualStudio
             NegateBooleanLiteral = true;
             NegateOperator = true;
             NotifyPropertyChanged = true;
+            PromoteLocalToParameter = true;
             RemoveAllComments = true;
             RemoveAllCommentsExceptXmlComments = true;
             RemoveAllMemberDeclarations = true;
@@ -221,6 +222,7 @@ namespace Pihrtsoft.CodeAnalysis.VisualStudio
             SetIsEnabled(RefactoringIdentifiers.NegateBooleanLiteral, NegateBooleanLiteral);
             SetIsEnabled(RefactoringIdentifiers.NegateOperator, NegateOperator);
             SetIsEnabled(RefactoringIdentifiers.NotifyPropertyChanged, NotifyPropertyChanged);
+            SetIsEnabled(RefactoringIdentifiers.PromoteLocalToParameter, PromoteLocalToParameter);
             SetIsEnabled(RefactoringIdentifiers.RemoveAllComments, RemoveAllComments);
             SetIsEnabled(RefactoringIdentifiers.RemoveAllCommentsExceptXmlComments, RemoveAllCommentsExceptXmlComments);
             SetIsEnabled(RefactoringIdentifiers.RemoveAllMemberDeclarations, RemoveAllMemberDeclarations);
@@ -967,6 +969,16 @@ namespace Pihrtsoft.CodeAnalysis.VisualStudio
         [Description("Syntax: property in class/struct that implements INotifyPropertyChanged\r\nScope: setter")]
         [TypeConverter(typeof (EnabledDisabledConverter))]
         public bool NotifyPropertyChanged
+        {
+            get;
+            set;
+        }
+
+        [Category(RefactoringCategory)]
+        [DisplayName("Promote local to parameter")]
+        [Description("Syntax: local declaration in method")]
+        [TypeConverter(typeof (EnabledDisabledConverter))]
+        public bool PromoteLocalToParameter
         {
             get;
             set;
