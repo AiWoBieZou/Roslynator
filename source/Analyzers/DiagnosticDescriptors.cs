@@ -818,9 +818,9 @@ namespace Pihrtsoft.CodeAnalysis.CSharp
 
         public static readonly DiagnosticDescriptor ReplacePropertyWithAutoImplementedPropertyFadeOut = ReplacePropertyWithAutoImplementedProperty.CreateFadeOut();
 
-        public static readonly DiagnosticDescriptor ReplaceTabWithSpaces = new DiagnosticDescriptor(
-            id: DiagnosticIdentifiers.ReplaceTabWithSpaces,
-            title: "Replace tab with spaces.",
+        public static readonly DiagnosticDescriptor AvoidUsageOfTab = new DiagnosticDescriptor(
+            id: DiagnosticIdentifiers.AvoidUsageOfTab,
+            title: "Avoid usage of tab.",
             messageFormat: "Consider replacing tab with spaces.",
             category: DiagnosticCategories.General,
             defaultSeverity: DiagnosticSeverity.Warning,

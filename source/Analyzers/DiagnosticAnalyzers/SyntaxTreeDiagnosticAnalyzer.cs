@@ -9,12 +9,13 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace Pihrtsoft.CodeAnalysis.CSharp.DiagnosticAnalyzers
 {
-#if DEBUG
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class SyntaxTreeDiagnosticAnalyzer : BaseDiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
-            => ImmutableArray.Create(DiagnosticDescriptors.ReplaceTabWithSpaces);
+        {
+            get { return ImmutableArray.Create(DiagnosticDescriptors.AvoidUsageOfTab); }
+        }
 
         public override void Initialize(AnalysisContext context)
         {
@@ -33,15 +34,15 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.DiagnosticAnalyzers
             if (!context.Tree.TryGetRoot(out root))
                 return;
 
-            foreach (SyntaxTrivia trivia in root.DescendantTrivia())
+            foreach (SyntaxTrivia trivia in root.DescendantTrivia(descendIntoTrivia: true))
             {
                 if (trivia.IsKind(SyntaxKind.WhitespaceTrivia))
                 {
-                    string s = trivia.ToString();
+                    string text = trivia.ToString();
 
-                    for (int i = 0; i < s.Length; i++)
+                    for (int i = 0; i < text.Length; i++)
                     {
-                        if (s[i] == '\t')
+                        if (text[i] == '\t')
                         {
                             int index = i;
 
@@ -49,10 +50,10 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.DiagnosticAnalyzers
                             {
                                 i++;
 
-                            } while (i < s.Length && s[i] == '\t');
+                            } while (i < text.Length && text[i] == '\t');
 
                             context.ReportDiagnostic(
-                                DiagnosticDescriptors.ReplaceTabWithSpaces,
+                                DiagnosticDescriptors.AvoidUsageOfTab,
                                 Location.Create(context.Tree, new TextSpan(trivia.SpanStart + index, i - index)));
                         }
                     }
@@ -60,5 +61,4 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.DiagnosticAnalyzers
             }
         }
     }
-#endif
 }

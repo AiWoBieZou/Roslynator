@@ -92,6 +92,6 @@ namespace Pihrtsoft.CodeAnalysis.CSharp
         public const string ReplaceConditionalExpressionWithCoalesceExpression = Prefix + "1084";
         public const string ReplacePropertyWithAutoImplementedProperty = Prefix + "1085";
 
-        public const string ReplaceTabWithSpaces = Prefix + "X001";
+        public const string AvoidUsageOfTab = Prefix + "X001";
     }
 }

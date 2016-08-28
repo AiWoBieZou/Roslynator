@@ -7,67 +7,45 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Pihrtsoft.CodeAnalysis.CSharp.CodeFixProviders
 {
-#if DEBUG
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(RemoveTriviaCodeFixProvider))]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ReplaceTabWithSpacesCodeFixProvider))]
     [Shared]
     public class ReplaceTabWithSpacesCodeFixProvider : BaseCodeFixProvider
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
-            => ImmutableArray.Create(DiagnosticIdentifiers.ReplaceTabWithSpaces);
-
-        public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            SyntaxNode root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            get { return ImmutableArray.Create(DiagnosticIdentifiers.AvoidUsageOfTab); }
+        }
 
-            SyntaxTrivia trivia = root.FindTrivia(context.Span.Start);
-
-            if (!trivia.IsKind(SyntaxKind.WhitespaceTrivia))
-                return;
-
+        public sealed override Task RegisterCodeFixesAsync(CodeFixContext context)
+        {
             CodeAction codeAction = CodeAction.Create(
                 "Replace tab with spaces",
-                cancellationToken => ReplaceTabWithSpacesAsync(context.Document, context.Span, cancellationToken),
-                DiagnosticIdentifiers.ReplaceTabWithSpaces + EquivalenceKeySuffix);
+                cancellationToken => RefactorAsync(context.Document, context.Span, cancellationToken),
+                DiagnosticIdentifiers.AvoidUsageOfTab + EquivalenceKeySuffix);
 
             context.RegisterCodeFix(codeAction, context.Diagnostics);
+
+            var tcs = new TaskCompletionSource<object>();
+            tcs.SetResult(null);
+            return tcs.Task;
         }
 
-        private static async Task<Document> ReplaceTabWithSpacesAsync(
+        private static async Task<Document> RefactorAsync(
             Document document,
             TextSpan span,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            SyntaxNode oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+            SourceText sourceText = await document.GetTextAsync(cancellationToken);
 
-            var rewriter = new ReplaceTabWithSpacesSyntaxRewriter(span);
+            var textChange = new TextChange(span, new string(' ', span.Length * 4));
 
-            SyntaxNode newRoot = rewriter.Visit(oldRoot);
+            SourceText newSourceText = sourceText.WithChanges(textChange);
 
-            return document.WithSyntaxRoot(newRoot);
-        }
-
-        private class ReplaceTabWithSpacesSyntaxRewriter : CSharpSyntaxRewriter
-        {
-            private readonly TextSpan _textSpan;
-
-            public ReplaceTabWithSpacesSyntaxRewriter(TextSpan textSpan)
-            {
-                _textSpan = textSpan;
-            }
-
-            public override SyntaxTrivia VisitTrivia(SyntaxTrivia trivia)
-            {
-                if (_textSpan.Contains(trivia.Span))
-                    return SyntaxFactory.Whitespace(trivia.ToString().Replace("\t", "    "));
-
-                return base.VisitTrivia(trivia);
-            }
+            return document.WithText(newSourceText);
         }
     }
-#endif
 }
