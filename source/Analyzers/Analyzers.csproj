@@ -58,6 +58,7 @@
     <Compile Include="CodeFixProviders\ArrowExpressionClauseCodeFixProvider.cs" />
     <Compile Include="CodeFixProviders\BaseCodeFixProvider.cs" />
     <Compile Include="CodeFixProviders\CaseSwitchLabelCodeFixProvider.cs" />
+    <Compile Include="DiagnosticAnalyzers\UseLinefeedAsNewLineDiagnosticAnalyzer.cs" />
     <Compile Include="Extensions\CodeFixContextExtensions.cs" />
     <Compile Include="Refactorings\SimplifyLinqMethodChainRefactoring.cs" />
     <Compile Include="Refactorings\ReplaceAnyMethodWithCountOrLengthPropertyRefactoring.cs" />
@@ -128,7 +129,7 @@
     <Compile Include="DiagnosticAnalyzers\LockStatementDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\MethodDeclarationDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\NamespaceDeclarationDiagnosticAnalyzer.cs" />
-    <Compile Include="DiagnosticAnalyzers\NewLineDiagnosticAnalyzer.cs" />
+    <Compile Include="DiagnosticAnalyzers\UseCarriageReturnAndLinefeedAsNewLineDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\AvoidSemicolonAtEndOfDeclarationDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\RedundantEmptyLineDiagnosticAnalyzer.cs" />
     <Compile Include="DiagnosticAnalyzers\LogicalNotExpressionDiagnosticAnalyzer.cs" />

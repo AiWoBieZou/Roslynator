@@ -2,13 +2,11 @@
 
 using System.Collections.Immutable;
 using System.Composition;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Pihrtsoft.CodeAnalysis.CSharp.CodeFixProviders
@@ -27,15 +25,8 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.CodeFixProviders
             }
         }
 
-        public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        public sealed override Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            SyntaxNode root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-
-            SyntaxTrivia trivia = root.FindTrivia(context.Span.Start);
-
-            if (trivia.IsKind(SyntaxKind.None))
-                return;
-
             foreach (Diagnostic diagnostic in context.Diagnostics)
             {
                 switch (diagnostic.Id)
@@ -44,7 +35,7 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.CodeFixProviders
                         {
                             CodeAction codeAction = CodeAction.Create(
                                 "Use linefeed as newline",
-                                cancellationToken => ReplaceNewLineAsync(context.Document, trivia, context.Span, "\n", cancellationToken),
+                                cancellationToken => RefactorAsync(context.Document, context.Span, "\n", cancellationToken),
                                 diagnostic.Id + EquivalenceKeySuffix);
 
                             context.RegisterCodeFix(codeAction, diagnostic);
@@ -54,7 +45,7 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.CodeFixProviders
                         {
                             CodeAction codeAction = CodeAction.Create(
                                 "Use carriage return + linefeed as newline",
-                                cancellationToken => ReplaceNewLineAsync(context.Document, trivia, context.Span, "\r\n", cancellationToken),
+                                cancellationToken => RefactorAsync(context.Document, context.Span, "\r\n", cancellationToken),
                                 diagnostic.Id + EquivalenceKeySuffix);
 
                             context.RegisterCodeFix(codeAction, diagnostic);
@@ -62,49 +53,25 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.CodeFixProviders
                         }
                 }
             }
+
+            var tcs = new TaskCompletionSource<object>();
+            tcs.SetResult(null);
+            return tcs.Task;
         }
 
-        private static async Task<Document> ReplaceNewLineAsync(
+        private static async Task<Document> RefactorAsync(
             Document document,
-            SyntaxTrivia trivia,
             TextSpan span,
             string newLine,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default(CancellationToken))
         {
-            SyntaxNode root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+            SourceText sourceText = await document.GetTextAsync(cancellationToken);
 
-            switch (trivia.Kind())
-            {
-                case SyntaxKind.EndOfLineTrivia:
-                    {
-                        root = root.ReplaceTrivia(trivia, SyntaxFactory.EndOfLine(newLine));
-                        break;
-                    }
-                case SyntaxKind.SingleLineDocumentationCommentTrivia:
-                    {
-                        SyntaxToken token = root.FindToken(span.Start, findInsideTrivia: true);
-                        root = root.ReplaceToken(token, SyntaxFactory.XmlTextNewLine(token.LeadingTrivia, newLine, newLine, token.TrailingTrivia));
-                        break;
-                    }
-                case SyntaxKind.MultiLineCommentTrivia:
-                    {
-                        string s = trivia.ToString();
+            var textChange = new TextChange(span, newLine);
 
-                        s = s.Substring(0, span.Start - trivia.SpanStart)
-                            + newLine
-                            + s.Substring(span.End - trivia.SpanStart, trivia.Span.End - span.End);
+            SourceText newSourceText = sourceText.WithChanges(textChange);
 
-                        root = root.ReplaceTrivia(trivia, SyntaxFactory.SyntaxTrivia(trivia.Kind(), s));
-                        break;
-                    }
-                default:
-                    {
-                        Debug.Assert(false, trivia.Kind().ToString());
-                        break;
-                    }
-            }
-
-            return document.WithSyntaxRoot(root);
+            return document.WithText(newSourceText);
         }
     }
 }
