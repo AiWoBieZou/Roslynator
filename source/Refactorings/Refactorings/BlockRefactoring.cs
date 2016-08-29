@@ -16,10 +16,11 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.Refactorings
                 RefactoringIdentifiers.WrapInUsingStatement,
                 RefactoringIdentifiers.CollapseToInitializer,
                 RefactoringIdentifiers.MergeIfStatements,
+                RefactoringIdentifiers.MergeLocalDeclarations,
                 RefactoringIdentifiers.WrapInIfStatement,
                 RefactoringIdentifiers.WrapInTryCatch))
             {
-                var info = new SelectedStatementsInfo(block, context.Span);
+                SelectedStatementsInfo info = SelectedStatementsInfo.Create(block, context.Span);
 
                 if (info.IsAnySelected)
                 {
@@ -35,6 +36,12 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.Refactorings
 
                     if (context.IsRefactoringEnabled(RefactoringIdentifiers.MergeIfStatements))
                         MergeIfStatementsRefactoring.ComputeRefactorings(context, info);
+
+                    if (context.IsRefactoringEnabled(RefactoringIdentifiers.MergeLocalDeclarations)
+                        && context.SupportsSemanticModel)
+                    {
+                        await MergeLocalDeclarationsRefactoring.ComputeRefactoringsAsync(context, info);
+                    }
 
                     if (context.IsRefactoringEnabled(RefactoringIdentifiers.MergeAssignmentExpressionWithReturnStatement))
                         MergeAssignmentExpressionWithReturnStatementRefactoring.ComputeRefactorings(context, info);

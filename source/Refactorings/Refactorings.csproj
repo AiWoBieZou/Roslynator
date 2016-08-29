@@ -50,6 +50,7 @@
     <Compile Include="Refactorings\IntroduceAndInitialize\IntroduceAndInitializeInfo.cs" />
     <Compile Include="Refactorings\IntroduceAndInitialize\IntroduceAndInitializePropertyInfo.cs" />
     <Compile Include="Refactorings\IntroduceAndInitialize\IntroduceAndInitializeRefactoring.cs" />
+    <Compile Include="Refactorings\MergeLocalDeclarationsRefactoring.cs" />
     <Compile Include="Refactorings\NodeInList\DuplicateArgumentOrParameterRefactoring.cs" />
     <Compile Include="Refactorings\NodeInList\NodeInListRefactoring.cs" />
     <Compile Include="Refactorings\IntroduceAndInitialize\IntroduceAndInitializePropertyRefactoring.cs" />

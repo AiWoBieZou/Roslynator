@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Josef Pihrt. All rights reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Pihrtsoft.CodeAnalysis.CSharp.Analysis;
@@ -9,8 +10,17 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.Refactorings
 {
     internal static class SwitchSectionRefactoring
     {
-        public static void ComputeRefactorings(RefactoringContext context, SwitchSectionSyntax switchSection)
+        public static async Task ComputeRefactoringsAsync(RefactoringContext context, SwitchSectionSyntax switchSection)
         {
+            if (context.IsRefactoringEnabled(RefactoringIdentifiers.MergeLocalDeclarations)
+                && context.SupportsSemanticModel)
+            {
+                SelectedStatementsInfo info = SelectedStatementsInfo.Create(switchSection, context.Span);
+
+                if (info.IsAnySelected)
+                    await MergeLocalDeclarationsRefactoring.ComputeRefactoringsAsync(context, info).ConfigureAwait(false);
+            }
+
             if (context.IsAnyRefactoringEnabled(
                 RefactoringIdentifiers.AddBracesToSwitchSection,
                 RefactoringIdentifiers.AddBracesToSwitchSections,
