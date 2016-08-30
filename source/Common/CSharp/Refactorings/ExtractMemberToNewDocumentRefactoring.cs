@@ -63,7 +63,7 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.Refactorings
             var namedTypeSymbol = semanticModel.GetDeclaredSymbol(memberDeclaration, cancellationToken) as INamedTypeSymbol;
 
             if (namedTypeSymbol?.Arity > 0)
-                documentName += "_" + namedTypeSymbol.Arity.ToString();
+                documentName += "`" + namedTypeSymbol.Arity.ToString();
 
             documentName += ".cs";
 
