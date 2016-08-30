@@ -46,7 +46,7 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.Refactorings
 
         private static SyntaxNode RemoveAllButMember(CompilationUnitSyntax compilationUnit, MemberDeclarationSyntax memberDeclaration)
         {
-            IEnumerable<MemberDeclarationSyntax> membersToRemove = GetNonNestedNonNamespaceMembers(compilationUnit.Members)
+            IEnumerable<MemberDeclarationSyntax> membersToRemove = GetNonNestedTypeDeclarations(compilationUnit.Members)
                 .Where(f => f != memberDeclaration);
 
             CompilationUnitSyntax newCompilationUnit = compilationUnit.RemoveNodes(
@@ -70,7 +70,7 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.Refactorings
             return documentName;
         }
 
-        public static IEnumerable<MemberDeclarationSyntax> GetNonNestedNonNamespaceMembers(SyntaxList<MemberDeclarationSyntax> members)
+        public static IEnumerable<MemberDeclarationSyntax> GetNonNestedTypeDeclarations(SyntaxList<MemberDeclarationSyntax> members)
         {
             Stack<NamespaceDeclarationSyntax> namespaces = null;
 

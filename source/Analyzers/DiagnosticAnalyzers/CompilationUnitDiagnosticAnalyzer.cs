@@ -39,7 +39,7 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.DiagnosticAnalyzers
 
             if (!ContainsSingleNamespaceWithSingleNonNamespaceMember(members))
             {
-                using (IEnumerator<MemberDeclarationSyntax> en = GetNonNestedNonNamespaceMembers(members).GetEnumerator())
+                using (IEnumerator<MemberDeclarationSyntax> en = GetNonNestedTypeDeclarations(members).GetEnumerator())
                 {
                     if (en.MoveNext())
                     {
