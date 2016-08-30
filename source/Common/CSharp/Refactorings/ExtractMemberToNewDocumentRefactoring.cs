@@ -70,6 +70,11 @@ namespace Pihrtsoft.CodeAnalysis.CSharp.Refactorings
             return documentName;
         }
 
+        public static IEnumerable<MemberDeclarationSyntax> GetNonNestedTypeDeclarations(CompilationUnitSyntax compilationUnit)
+        {
+            return GetNonNestedTypeDeclarations(compilationUnit.Members);
+        }
+
         public static IEnumerable<MemberDeclarationSyntax> GetNonNestedTypeDeclarations(SyntaxList<MemberDeclarationSyntax> members)
         {
             Stack<NamespaceDeclarationSyntax> namespaces = null;
