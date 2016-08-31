@@ -817,5 +817,14 @@ namespace Pihrtsoft.CodeAnalysis.CSharp
         );
 
         public static readonly DiagnosticDescriptor ReplacePropertyWithAutoImplementedPropertyFadeOut = ReplacePropertyWithAutoImplementedProperty.CreateFadeOut();
+
+        public static readonly DiagnosticDescriptor UsePostfixUnaryOperatorInsteadOfAssignment = new DiagnosticDescriptor(
+            id: DiagnosticIdentifiers.UsePostfixUnaryOperatorInsteadOfAssignment,
+            title: "Use postfix unary operator instead of assignment.",
+            messageFormat: "Consider using {0} operator instead of assignment.",
+            category: DiagnosticCategories.General,
+            defaultSeverity: DiagnosticSeverity.Info,
+            isEnabledByDefault: true
+        );
     }
 }
